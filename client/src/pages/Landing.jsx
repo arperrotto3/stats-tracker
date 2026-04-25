@@ -233,7 +233,7 @@ function Landing() {
             {/* Features Section */}
             <section style={{ padding: '6rem 3rem', maxWidth: '1200px', margin: '0 auto' }}>
                 <h2 style={{ fontFamily: 'Bebas Neue, sans-serif', fontSize: '2.5rem', textAlign: 'center', color: '#F0E6D3', marginBottom: '1rem', letterSpacing: '0.1em' }}>Everything You Need</h2>
-                <p style={{ textAlign: 'center', color: '#a0a0b0', marginBottom: '4rem', fontSize: '1.1rem' }}>Two games. One dashboard. All your stats in one place.</p>
+                <p style={{ textAlign: 'center', color: '#a0a0b0', marginBottom: '4rem', fontSize: '1.1rem', fontWeight: 550 }}>Two games. One dashboard. All your stats in one place.</p>
 
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem' }}>
 
@@ -257,7 +257,8 @@ function Landing() {
                                 padding: '1.5rem',
                                 marginBottom: '1rem',
                                 position: 'relative',
-                                overflow: 'hidden'
+                                overflow: 'hidden',
+                                fontWeight: 550
                             }}>
                                 <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '2px', background: feature.color }} />
                                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.5rem' }}>
@@ -289,7 +290,8 @@ function Landing() {
                                 marginBottom: '1rem',
                                 position: 'relative',
                                 overflow: 'hidden',
-                                opacity: 0.6
+                                opacity: 0.6,
+                                fontWeight: 550
                             }}>
                                 <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '2px', background: feature.color }} />
                                 <div style={{ position: 'absolute', top: '0.75rem', right: '0.75rem', background: 'rgba(255,107,53,0.15)', border: '1px solid rgba(255,107,53,0.3)', color: '#ff6b35', fontSize: '0.65rem', padding: '0.15rem 0.5rem', borderRadius: '20px', letterSpacing: '0.1em' }}>SOON</div>
