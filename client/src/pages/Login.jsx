@@ -85,7 +85,7 @@ function Login() {
         borderBottom: '1px solid rgba(200,155,60,0.2)'
       }}>
         <a href="/" style={{ textDecoration: 'none' }}>
-          <span style={{ fontFamily: 'Bebas Neue, sans-serif', fontSize: '1.4rem', fontWeight: 700, color: '#C89B3C', letterSpacing: '0.15em' }}>RIFT REPORT</span>
+          <span style={{ fontFamily: 'Bebas Neue, sans-serif', fontSize: '1.4rem', fontWeight: 700, color: '#C89B3C', letterSpacing: '0.15em' }}>RIFT & RIFLE</span>
         </a>
             <a href="/register" style={{
                 background: 'linear-gradient(135deg, #C89B3C, #785A28)',

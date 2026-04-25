@@ -91,7 +91,7 @@ function Landing() {
                 borderBottom: scrollY > 50 ? '1px solid rgba(200, 155, 60, 0.2' : 'none',
                 transition: 'all 0.3s ease'
             }}>
-                <span style={{ fontFamily: 'Bebas Neue, sans-serif', fontSize: '1.4rem', fontWeight: 700, color: '#C89B3C', letterSpacing: '0.15em' }}>RIFT REPORT</span>
+                <span style={{ fontFamily: 'Bebas Neue, sans-serif', fontSize: '1.4rem', fontWeight: 700, color: '#C89B3C', letterSpacing: '0.15em' }}>RIFT & RIFLE</span>
                 <div style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>
                     <a href="/login" className="nav-link" style={{ color: '#a0a0b0', textDecoration: 'none', fontWeight: 600, letterSpacing: '0.1em' }}>LOGIN</a>
                     <a href="/register" style={{
@@ -266,7 +266,7 @@ function Landing() {
                 flexWrap: 'wrap',
                 gap: '1rem'
             }}>
-                <span style={{ fontFamily: 'Bebas Neue, sans-serif', color: '#C89B3C', fontWeight: 700, letterSpacing: '0.05rem', fontSize: '1.5rem'}}>RIFT REPORT</span>
+                <span style={{ fontFamily: 'Bebas Neue, sans-serif', color: '#C89B3C', fontWeight: 700, letterSpacing: '0.05rem', fontSize: '1.5rem'}}>RIFT & RIFLE</span>
                 <p style={{ color: '#555', fontSize: '0.9rem', margin: 0, fontWeight: '600', letterSpacing: '0.001rem' }}>Not affiliated with Riot Games. All game data provided by Riot Games API.</p>
             </footer>
         </div>
