@@ -232,36 +232,75 @@ function Landing() {
 
             {/* Features Section */}
             <section style={{ padding: '6rem 3rem', maxWidth: '1200px', margin: '0 auto' }}>
-                <h2 style={{ fontFamily: 'Bebas Neue, sans-serif', fontSize: '2.5rem', textAlign: 'center', color: '#F0E6D3', marginBottom: '1rem' }}>Everything You Need</h2>
-                <p style={{ textAlign: 'center', color: '#a0a0b0', marginBottom: '4rem', fontSize: '1.2rem', fontWeight: 500, letterSpacing: '0.02rem'}}>All your League stats in one beautiful dashboard</p>
-                <div style={{ display: 'grid', gridTemplateColumns: 'react(auto-fit, minmax(280px, 1fr))', gap: '1.5rem' }}>
-                    {[
-                        { icon: '🏆', title: 'Rank Tracking', desc: 'Solo/Duo and Flex rankings with LP and win rate breakdown', color: '#C89B3C' },
-                        { icon: '⚔️', title: 'Match History', desc: 'Detailed match breakdowns with KDA, CS, vision score and more', color: '#5865F2' },
-                        { icon: '🎯', title: 'Champion "Mastery', desc: 'Your top champions with mastery points and performance stats', color: '#ff4757' },
-                        { icon: '🔴', title: 'Live Game', desc: 'See when your friends are in a game and track it in real time', color: '#ff4757' }
-                    ].map((feature) => (
-                        <div key={feature.title} className="feature-card" style={{
-                            background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%',
-                            border: '1px solid rgba(255, 255, 255, 0.08)',
-                            borderRadius: '12px',
-                            padding: '2rem',
-                            position: 'relative',
-                            overflow: 'hidden'
-                        }}>
-                            <div style={{
-                                position: 'absolute',
-                                top: 0,
-                                left: 0,
-                                right: 0,
-                                height: '2px',
-                                background: feature.color
-                            }} />
-                            <div style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>{feature.icon}</div>
-                            <h3 style={{ fontFamily: 'Bebas Neue, sans-serif', fontSize: '1.5rem', color: '#F0E6D3', marginBottom: '0.75rem', letterSpacing: '0.02rem' }}>{feature.title}</h3>
-                            <p style={{ color: '#a0a0b0', lineHeight: 1.6, fontSize: '1.1rem', fontWeight: 500, letterSpacing: '0.02rem' }}>{feature.desc}</p>
+                <h2 style={{ fontFamily: 'Bebas Neue, sans-serif', fontSize: '2.5rem', textAlign: 'center', color: '#F0E6D3', marginBottom: '1rem', letterSpacing: '0.1em' }}>Everything You Need</h2>
+                <p style={{ textAlign: 'center', color: '#a0a0b0', marginBottom: '4rem', fontSize: '1.1rem' }}>Two games. One dashboard. All your stats in one place.</p>
+
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem' }}>
+
+                    {/* League of Legends Column */}
+                    <div>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.5rem', paddingBottom: '1rem', borderBottom: '1px solid rgba(200, 155, 60, 0.3)' }}>
+                            <img src="https://raw.githubusercontent.com/nicolo-ribaudo/tc39-proposal-import-defer/main/assets/lol-logo.png" onError={(e) => { e.target.style.display = 'none' }} alt="" style={{ width: '32px', height: '32px' }} />
+                            <h3 style={{ fontFamily: 'Bebas Neue, sans-serif', fontSize: '1.5rem', color: '#C89B3C', letterSpacing: '0.1rem', margin: 0 }}>LEAGUE OF LEGENDS</h3>
                         </div>
-                    ))}
+
+                        {[
+                            { icon: '🏆', title: 'Rank Tracking', desc: 'Solo/Duo and Flex rankings with LP and win rate breakdown', color: '#C89B3C' },
+                            { icon: '⚔️', title: 'Match History', desc: 'Detailed match breakdowns with KDA, CS, vision score and more', color: '#5865F2' },
+                            { icon: '🎯', title: 'Champion Mastery', desc: 'Your top champions with mastery points and performance stats', color: '#00d4aa' },
+                            { icon: '🔴', title: 'Live Game', desc: 'See when your friends are in a game and track it in real time', color: '#ff4757' }
+                        ].map((feature) => (
+                            <div key={feature.title} className="feature-card" style={{
+                                background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%)',
+                                border: '1px solid rgba(255, 255, 255, 0.08)',
+                                borderRadius: '12px',
+                                padding: '1.5rem',
+                                marginBottom: '1rem',
+                                position: 'relative',
+                                overflow: 'hidden'
+                            }}>
+                                <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '2px', background: feature.color }} />
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.5rem' }}>
+                                    <span style={{ fontSize: '1.5rem' }}>{feature.icon}</span>
+                                    <h3 style={{ fontFamily: 'Bebas Neue, sans-serif', fontSize: '1.1rem', color: '#F0E6D3', margin: 0, letterSpacing: '0.05em' }}>{feature.title}</h3>
+                                </div>
+                                <p style={{ color: '#a0a0b0', lineHeight: 1.6, fontSize: '0.95rem', margin: 0 }}>{feature.desc}</p>
+                            </div>
+                        ))}
+                    </div>
+
+                    {/* CS2 Column */}
+                    <div>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.5rem', paddingBottom: '1rem', borderBottom: '1px solid rgba(255,165,0,0.3)' }}>
+                        <h3 style={{ fontFamily: 'Bebas Neue, sans-serif', fontSize: '1.5rem', color: '#ff6b35', letterSpacing: '0.1em', margin: 0 }}>COUNTER-STRIKE 2</h3>
+                        <span style={{ background: 'rgba(255,107,53,0.15)', border: '1px solid rgba(255,107,53,0.3)', color: '#ff6b35', fontSize: '0.7rem', padding: '0.2rem 0.6rem', borderRadius: '20px', letterSpacing: '0.1em', fontWeight: 600 }}>COMING SOON</span>
+                    </div>
+                        {[
+                            { icon: '🎯', title: 'K/D Ratio', desc: 'Track your kill/death ratio and performance trends over time', color: '#ff6b35' },
+                            { icon: '💀', title: 'Match Stats', desc: 'Detailed match history with headshot %, damage, and utility stats', color: '#ff4757' },
+                            { icon: '🗺️', title: 'Map Win Rates', desc: 'See which maps you dominate and which ones need work', color: '#ffa502' },
+                            { icon: '📈', title: 'Rank History', desc: 'Track your CS2 rank progression over time', color: '#ff6b35' }
+                        ].map((feature) => (
+                            <div key={feature.title} className="feature-card" style={{
+                                background: 'linear-gradient(135deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.005) 100%)',
+                                border: '1px solid rgba(255,255,255,0.05)',
+                                borderRadius: '12px',
+                                padding: '1.5rem',
+                                marginBottom: '1rem',
+                                position: 'relative',
+                                overflow: 'hidden',
+                                opacity: 0.6
+                            }}>
+                                <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '2px', background: feature.color }} />
+                                <div style={{ position: 'absolute', top: '0.75rem', right: '0.75rem', background: 'rgba(255,107,53,0.15)', border: '1px solid rgba(255,107,53,0.3)', color: '#ff6b35', fontSize: '0.65rem', padding: '0.15rem 0.5rem', borderRadius: '20px', letterSpacing: '0.1em' }}>SOON</div>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.5rem' }}>
+                                    <span style={{ fontSize: '1.5rem' }}>{feature.icon}</span>
+                                    <h3 style={{ fontFamily: 'Bebas Neue, sans-serif', fontSize: '1.1rem', color: '#F0E6D3', margin: 0, letterSpacing: '0.05em' }}>{feature.title}</h3>
+                                </div>
+                                <p style={{ color: '#a0a0b0', lineHeight: 1.6, fontSize: '0.95rem', margin: 0 }}>{feature.desc}</p>
+                            </div>
+                        ))}
+                    </div>
                 </div>
             </section>
 
