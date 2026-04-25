@@ -30,7 +30,7 @@ function Landing() {
                 }
                 .hero-title {
                     font-family: 'Cinzel', serif;
-                    font-size: clamp(3rem, 8vw, 7rem);
+                    font-size: clamp(3rem, 8vw, 6rem);
                     font-weight: 900;
                     line-height: 1.05;
                     background: linear-gradient(135deg, #C89B3C 0%, #F0E6D3 40%, #C89B3C 60%, #785A28 100%);
@@ -72,6 +72,58 @@ function Landing() {
                 }
                 .stat-card:hover {
                     transform: scale(1.05)
+                }
+                .cta-primary {
+                    background: linear-gradient(135deg, #C89B3C 0%, #785A28 100%);
+                    color: white;
+                    padding: 1rem 2.5rem;
+                    border-radius: 4px;
+                    text-decoration: none;
+                    font-weight: 700;
+                    font-size: 1.1rem;
+                    letter-spacing: 0.1em;
+                    text-transform: uppercase;
+                    transition: transform 0.2s ease, box-shadow 0.2s ease;
+                    display: inline-block;
+                }
+                .cta-primary:hover {
+                    transform: translateY(-3px);
+                    box-shadow: 0 10px 30px rgba(200, 155, 60, 0.4);
+                }
+                .cta-secondary {
+                    background: transparent;
+                    color: #C89B3C;
+                    padding: 1rem 2.5rem;
+                    border-radius: 4px;
+                    text-decoration: none;
+                    font-weight: 700;
+                    font-size: 1.1rem;
+                    letter-spacing: 0.1rem;
+                    text-transform: uppercase;
+                    border: 1px solid rgba(200, 155, 60, 0.4);
+                    transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+                    display: inline-block;
+                }
+                .cta-secondary:hover {
+                    transform: translateY(-3px);
+                    border-color: #C89B3C;
+                    box-shadow: 0 10px 30px rgba(200, 155, 60, 0.15);
+                }
+                .cta-tertiary {
+                    background: linear-gradient(135deg, #C89B3C 0%, #785A28 100%);
+                    color: white;
+                    padding: '1rem 2.5rem',
+                    border-radius: '8px',
+                    text-decoration: 'none',
+                    font-weight: 700,
+                    letter-spacing: '0.05em'
+                    text-transform: uppercase;
+                    transition: transform 0.2s ease, box-shadow 0.2s ease;
+                    display: inline-block;
+                }
+                .cta-tertiary:hover {
+                    transform: translateY(-3px);
+                    box-shadow: 0 10px 30px rgba(200, 155, 60, 0.4);
                 }
             `}</style>
 
@@ -139,37 +191,17 @@ function Landing() {
                 }} />
 
                 <div style={{ textAlign: 'center', maxWidth: '900px', position: 'relative', zIndex: 1 }}>
-                    <p style={{ color: '#C89B3C', letterSpacing: '0.3em', fontSize: '1.2rem', fontWeight: 700, marginBottom: '1.5rem', textTransform: 'uppercase' }}>League of Legends Stats Tracker</p>
-                    <h1 className="hero-title">DOMINATE<br />THE RIFT</h1>
+                    <p style={{ color: '#C89B3C', letterSpacing: '0.3em', fontSize: '1.2rem', fontWeight: 700, marginBottom: '1.5rem', textTransform: 'uppercase' }}>League of Legends · Counter-Strike 2</p>
+                    <h1 className="hero-title">TWO GAMES</h1>
+                    <div style={{ width: '720px', height: '2px', background: 'linear-gradient(90deg, transparent, #C89B3C, transparent)', margin: '0.5rem auto' }} />
+                    <h1 className="hero-title">ONE HUB</h1>
                     <p className="subtitle" style={{ fontSize: '1.3rem', color: 'a0a0b0', maxWidth: '600px', margin: '1.5rem auto 2.5rem', lineHeight: 1.6, fontWeight: 500}}>
-                        Track your stats, analyze your performance, and climb the ranks with real-time League of Legends data.
+                        Track your stats, analyze your performance, and climb the ranks across League of Legends and Counter-Strike 2 with real-time data.
                     </p>
 
                     <div className="cta-buttons" style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-                        <a href="/register" style ={{
-                            background: 'linear-gradient(135deg, #C89B3C 0%, #785A28 100%)',
-                            color: 'white',
-                            padding: '1rem 2.5rem',
-                            borderRadius: '4px',
-                            textDecoration: 'none',
-                            fontWeight: 700,
-                            fontSize: '1.1rem',
-                            letterSpacing: '0.1em',
-                            textTransform: 'uppercase'
-                        }}>Start Tracking</a>
-                        
-                        <a href="/login" style={{
-                            background: 'transparent',
-                            color: '#C89B3C',
-                            padding: '1rem 2.5rem',
-                            borderRadius: '4px',
-                            textDecoration: 'none',
-                            fontWeight: 700,
-                            fontSize: '1.1rem',
-                            letterSpacing: '0.1em',
-                            textTransform: 'uppercase',
-                            border: '1px solid rgba(200, 155, 60, 0.4)'
-                        }}>Login</a>
+                        <a href="/register" className="cta-primary">Start Tracking</a>
+                        <a href="/login" className="cta-secondary">Login</a>
                     </div>
                 </div>
             </section>
@@ -242,18 +274,7 @@ function Landing() {
             }}>
                 <h2 style={{ fontFamily: 'Bebas Neue, sans-serif', fontSize: '2.5rem', color: '#F0E6D3', marginBottom: '1rem' }}>Ready to Climb?</h2>
                 <p style={{ color: 'a0a0b0', fontSize: '1.1rem', marginBottom: '2.5rem', letterSpacing: '0.02rem', fontWeight: 500 }}>Create your free account and start tracking today.</p>
-
-                <a href="/register" style={{
-                    background: 'linear-gradient(135deg, #C89B3C 0%, #785A28 100%)',
-                    color: 'white',
-                    padding: '1rem 3rem',
-                    borderRadius: '4px',
-                    textDecoration: 'none',
-                    fontWeight: 700,
-                    fontSize: '1.1rem',
-                    letterSpacing: '0.1rem',
-                    textTransform: 'uppercase'
-                }}>Create Free Account</a>
+                <a href="/register" className="cta-primary">Create Free Account</a>
             </section>
 
             {/* Footer */}
