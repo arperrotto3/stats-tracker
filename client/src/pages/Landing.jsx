@@ -109,21 +109,8 @@ function Landing() {
                     border-color: #C89B3C;
                     box-shadow: 0 10px 30px rgba(200, 155, 60, 0.15);
                 }
-                .cta-tertiary {
-                    background: linear-gradient(135deg, #C89B3C 0%, #785A28 100%);
-                    color: white;
-                    padding: '1rem 2.5rem',
-                    border-radius: '8px',
-                    text-decoration: 'none',
-                    font-weight: 700,
-                    letter-spacing: '0.05em'
-                    text-transform: uppercase;
-                    transition: transform 0.2s ease, box-shadow 0.2s ease;
-                    display: inline-block;
-                }
-                .cta-tertiary:hover {
-                    transform: translateY(-3px);
-                    box-shadow: 0 10px 30px rgba(200, 155, 60, 0.4);
+                .gold-line {
+                    animation: shimmer 4s linear infinite, slideUp 1s ease forwards;
                 }
             `}</style>
 
@@ -193,7 +180,7 @@ function Landing() {
                 <div style={{ textAlign: 'center', maxWidth: '900px', position: 'relative', zIndex: 1 }}>
                     <p style={{ color: '#C89B3C', letterSpacing: '0.3em', fontSize: '1.2rem', fontWeight: 700, marginBottom: '1.5rem', textTransform: 'uppercase' }}>League of Legends · Counter-Strike 2</p>
                     <h1 className="hero-title">TWO GAMES</h1>
-                    <div style={{ width: '720px', height: '2px', background: 'linear-gradient(90deg, transparent, #C89B3C, transparent)', margin: '0.5rem auto' }} />
+                    <div className="gold-line" style={{ width: '720px', height: '2px', background: 'linear-gradient(90deg, transparent, #C89B3C, transparent)', margin: '0.5rem auto' }} />
                     <h1 className="hero-title">ONE HUB</h1>
                     <p className="subtitle" style={{ fontSize: '1.3rem', color: 'a0a0b0', maxWidth: '600px', margin: '1.5rem auto 2.5rem', lineHeight: 1.6, fontWeight: 500}}>
                         Track your stats, analyze your performance, and climb the ranks across League of Legends and Counter-Strike 2 with real-time data.

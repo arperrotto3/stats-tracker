@@ -1,71 +1,30 @@
 import { useEffect, useState } from 'react'
-import axios from 'axios'
+import { jwtDecode } from 'jwt-decode'
+import leagueLogo from '../assets/league-logo.png'
 
 function Dashboard () {
-    const [gameName, setGameName] = useState('')
-    const [tagLine, setTagLine] = useState('')
-    const [summoner, setSummoner] = useState(null)
-    const [rank, setRank] = useState(null)
-    const [mastery, setMastery] = useState(null)
-    const [matches, setMatches] = useState(null)
-    const [loading, setLoading] = useState(false)
-    const [error, setError] = useState('')
-    const [championById, setChampionById] = useState({})
+    const [username, setUsername] = useState('')
+    const [dropdownOpen, setDropdownOpen] = useState(false)
 
     useEffect(() => {
         const token = localStorage.getItem('token')
         if (!token) {
             window.location.href = '/login'
-        }
-    }, [])
-
-    const handleSearch = async () => {
-        if (!gameName || !tagLine) {
-            setError('Please enter both a username and tag')
             return
         }
-        setLoading(true)
-        setError('')
-        try {
-            const championRes = await axios.get('https://ddragon.leagueoflegends.com/cdn/14.24.1/data/en_US/champion.json')
-            const championData = championRes.data.data
-            const champMap = {}
-            Object.values(championData).forEach(champ => {
-                champMap[champ.key] = champ.name
-            })
-            setChampionById(champMap)
+        const decoded = jwtDecode(token)
+        setUsername(decoded.username)
+    }, [])
 
-            const summonerRes = await axios.get('/api/riot/summoner?gameName=' + gameName + '&tagLine=' + tagLine)
-            setSummoner(summonerRes.data.summoner)
-
-            const puuid = summonerRes.data.puuid
-
-            try {
-            const rankRes = await axios.get('/api/riot/rank?summonerId=' + puuid)
-            setRank(rankRes.data)
-            } catch {
-                setRank([])
+    useEffect(() => {
+        const handleClickOutside = (e) => {
+            if (dropdownOpen) {
+                setDropdownOpen(false)
             }
-
-            try {
-            const masteryRes = await axios.get('/api/riot/mastery?puuid=' + puuid)
-            setMastery(masteryRes.data)
-            } catch {
-                setMastery([])
-            }
-
-            try{
-            const matchRes = await axios.get('/api/riot/matches?puuid=' + puuid + '&count=10')
-            setMatches(matchRes.data)
-            } catch {
-                setMatches([])
-            }
-
-        } catch {
-            setError('Could not find player. Check the Riot ID and try again.')
         }
-        setLoading(false)
-    }
+        document.addEventListener('click', handleClickOutside)
+        return () => document.removeEventListener('click', handleClickOutside)
+    }, [dropdownOpen])
 
     const handleLogout = () => {
         localStorage.removeItem('token')
@@ -73,110 +32,192 @@ function Dashboard () {
     }
 
     return (
-        <div className="min-h-screen bg-gray-900 text-white p-8">
-            <div className="max-w-6x1 mx-auto">
+        <div style={{ fontFamily: 'Rajdhani, sans-serif', background: '#0a0a0f', minHeight: '100vh', color: 'white' }}>
+            <style>{`
+                @keyframes slideUp {
+                    from { opacity: 0; transform: translateY(30px); }
+                    to { opacity: 1; transform: translateY(0); }
+                }
+                .game-card {
+                    transition: transform 0.3s ease, box-shadow 0.3s ease;
+                    cursor: pointer;
+                    text-decoration: none;
+                }
+                .game-card:hover {
+                    transform: translateY(-8px);
+                    box-shadow: 0 20px 60px rgba(200, 155, 60, 0.2);
+                }
+                .game-card-cs2:hover {
+                    box-shadow: 0 20px 60px rgba(255, 107, 53, 0.1);
+                }
+                .dropdown-menu {
+                    position: absolute;
+                    top: calc(100% + 0.5rem);
+                    right: 0;
+                    background: #13131a;
+                    border: 1px solid rgba(200, 155, 60, 0.2);
+                    border-radius: 8px;
+                    min-width: 180px;
+                    overflow: hidden;
+                    z-index: 200;
+                }
+                .dropdown-item {
+                    display: block;
+                    padding: 0.75rem 1.25rem;
+                    color: #a0a0b0;
+                    text-decoration: none;
+                    font-size: 1rem;
+                    font-weight: 550;
+                    transition: background 0.2s ease, color 0.2s ease;
+                    cursor: pointer;
+                    border: none;
+                    background: none;
+                    width: 100%;
+                    text-align: left;
+                    font-family: Rajdhani, sans-serif;
+                }
+                .dropdown-item:hover {
+                    background: rgba(200, 155, 60, 0.1);
+                    color: #C89B3C;
+                }
+                .dropdown-divider {
+                    height: 1px;
+                    background: rgba(255, 255, 255, 0.05);
+                    margin: 0;
+                }
+                .nav-game-btn {
+                    display: flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                    padding: 0.5rem 1rem;
+                    border-radius: 4px;
+                    text-decoration: none;
+                    font-family: Bebas Neue, sans-serif;
+                    font-size: 1rem;
+                    letter-spacing: 0.08em;
+                    transition: background 0.2s ease;
+                }
+                .nav-game-btn:hover {
+                    background: rgba(255, 255, 255, 0.05)
+                }
+            `}</style>
 
-                <div className="flex justify-between items-center mb-8">
-                    <div>
-                        <h1 className="text-4x1 font-bold text-blue-400">Stats Tracker</h1>
-                        <p className="text-gray-400 mt-1">Search any League of Legends player</p>
-                    </div>
-                    <button onClick={handleLogout} className="bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded text-sm">Logout</button>
-                </div>
+            {/* Navbar */}
+            <nav style={{
+                position: 'fixed',
+                top: 0,
+                left: 0,
+                right: 0,
+                zIndex: 100,
+                padding: '1rem 2rem',
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                background: 'rgba(10, 10, 15, 0.98)',
+                backdropFilter: 'blur(10px)',
+                borderBottom: '1px solid rgba(200, 155, 60, 0.2)'
+            }}>
+                <a href="/dashboard" style={{ textDecoration: 'none' }}>
+                    <span style={{ fontFamily: 'Bebas Neue, sans-serif', fontSize: '1.4rem', color: '#C89B3C', letterSpacing: '0.15em' }}>RIFT & RIFLE</span>
+                </a>
 
-                <div className="flex gap-3 mb-8">
-                    <input
-                        type="text"
-                        placeholder="Game Name"
-                        value={gameName}
-                        onChange={(e) => setGameName(e.target.value)}
-                        className="bg-gray-800 border border-gray-700 rounded px-4 py-2 flex-1 focus:outline-none focus:border-blue-400"
-                    />
-                    <input
-                        type="text"
-                        placeholder="TAG"
-                        value={tagLine}
-                        onChange={(e) => setTagLine(e.target.value)}
-                        className="bg-gray-800 border border-gray-700 rounded px-4 py-2 w-24 focus:outline-none focus:border-blue-400"
-                    />
-                    <button onClick={handleSearch} className="bg-blue-500 hover:bg-blue-600 px-6 py-2 rounded font-semibold">{loading ? 'Searching...' : 'Search'}</button>
-                </div>
+                <div style={{ position: 'relative' }}>
+                    <button
+                        onClick={(e) => {
+                            e.stopPropagation()
+                            setDropdownOpen(!dropdownOpen)}
+                        }
+                        style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '0.5rem',
+                            background: 'rgba(255, 255, 255, 0.05)',
+                            border: '1px solid rgba(200, 155, 60, 0.2)',
+                            borderRadius: '6px',
+                            padding: '0.5rem 1rem',
+                            color: 'white',
+                            cursor: 'pointer',
+                            fontFamily: 'Rajdhani, sans-serif',
+                            fontSize: '1rem',
+                            fontWeight: 600
+                        }}
+                    >
+                        <span>{username}</span>
+                        <span style={{ color: '#C89b3c', fontSize: '0.7rem' }}>▼</span>
+                    </button>
 
-                {error && <p className="text-red-400 mb-4">{error}</p>}
-
-                {summoner && (
-                    <div className="bg-gray-800 rounded-1g p-6 mb-6">
-                        <h2 className="text-2x1 font-bold">{gameName + '#' + tagLine}</h2>
-                        <p className="text-gray-400">Summoner Level: {summoner.summonerLevel}</p>
-                    </div>
-                )}
-
-                {rank && rank.length > 0 && (
-                    <div className="bg-gray-800 rounded-lg p-6 mb-6">
-                        <h2 className="text-xl font-bold mb-4 text-blue-400">Ranked Stats</h2>
-                        {rank.map((entry) => (
-                            <div key={entry.queueType} className="mb-4">
-                                <p className="text-gray-400 text-sm">{entry.queueType === 'RANKED_SOLO_5x5' ? 'Solo/Duo' : 'Flex'}</p>
-                                <p className="text-2x1 font-bold">{entry.tier + ' ' + entry.rank}</p>
-                                <p className="text-gray-400">{entry.leaguePoints + ' LP'}</p>
-                                <p className="text-gray-400">{entry.wins + 'W ' + entry.losses + 'L'}</p>
-                                <p className="text-gray-400">{'Win Rate: ' + Math.round((entry.wins / (entry.wins + entry.losses)) * 100) + '%'}</p>
-                            </div>
-                        ))}
-                    </div>
-                )}
-
-                {rank && rank.length === 0 && summoner && (
-                    <div className="bg-gray-800 rounded-lg p-6 mb-6">
-                        <h2 className="text-x1 font-bold mb-2 text-blue-400">Ranked Stats</h2>
-                        <p className="text-gray-400">Unranked</p>
-                    </div>
-                )}
-
-                {mastery && mastery.length > 0 && (
-                    <div className="bg-gray-800 rounded-lg p-6 mb-6">
-                        <h2 className="text-xl font-bold mb-4 text-blue-400">Top Champions</h2>
-                        <div className="grid grid-cols-5 gap-4">
-                            {mastery.slice(0, 5).map((champ) => {
-                                console.log('Champion ID: ', champ.championId)
-                                console.log('Champion lookup: ', championById[String(champ.championId)])
-                                return (
-                                <div key={champ.championId} className="bg-gray-700 rounded-lg p-4 text-center">
-                                    <p className="font-bold">{championById[String(champ.championId)] || 'Unknown'}</p>
-                                    <p className="text-blue-400 text-sm">{'Level ' + champ.championLevel}</p>
-                                    <p className="text-gray-400 text-xs">{champ.championPoints.toLocaleString() + ' pts'}</p>
-                                </div>
-                                )
-                            })}
+                    {dropdownOpen && (
+                        <div className="dropdown-menu">
+                            <a href="/profile" className="dropdown-item">My Profile</a>
+                            <a href="/settings" className="dropdown-item">Settings</a>
+                            <div className="dropdown-divider" />
+                            <button onClick={handleLogout} className="dropdown-item" style={{ color: '#ff4757' }}>Logout</button>
                         </div>
-                    </div> 
-                )}
-                
-                {matches && matches.length > 0 && (
-                    <div className="bg-gray-800 rounded-lg p-6 mb-6">
-                        <h2 className="text-xl font-bold mb-4 text-blue-400">Recent Matches</h2>
-                        {matches.map((match) => {
-                            const player = match.info.participants.find(p => p.puuid === match.metadata.participants[0])
-                            return (
-                                <div key={match.metadata.matchId} className={'flex items-center justify-between p-4 mb-2 rounded-lg ' + (player.win ? 'bg-blue-900' : 'bg-red-900')}>
-                                    <div>
-                                        <p className="font-bold">{player.championName}</p>
-                                        <p className="text-gray-300 text-sm">{match.info.gameMode}</p>
-                                    </div>
+                    )}
+                </div>
+            </nav>
 
-                                    <div className="text-center">
-                                        <p className="font-bold">{player.kills + '/' + player.deaths + '/' + player.assists}</p>
-                                        <p className="text-gray-300 text-sm">KDA</p>
-                                    </div>
+            {/* Main Content */}
+            <div style={{ paddingTop: '5rem', minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '8rem 2rem 4rem' }}>
 
-                                    <div className="text-center">
-                                        <p className="font-bold>">{player.win ? 'WIN' : 'LOSS'}</p>
-                                    </div>
-                                </div>
-                            )
-                        })}
+                <div style={{ textAlign: 'center', marginBottom: '4rem', animation: 'slideUp 0.6s ease forwards' }}>
+                    <p style={{ color: '#a0a0b0', fontSize: '1.1rem', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: '0.5rem', fontWeight: 600 }}>Welcome back</p>
+                    <h1 style={{ fontFamily: 'Bebas Neue, sans-serif', fontSize: '3.5rem', letterSpacing: '0.1em', color: '#f0e6d3', margin: '0 0 0.5rem' }}>{username}</h1>
+                    <p style={{ color: '#a0a0b0', fontSize: '1.1rem', fontWeight: 500 }}>Select a game to view your stats</p>
+                </div>
+
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem', maxWidth: '900px', width: '100%' }}>
+
+                    {/* League Card */}
+                    <a href="/league" className="game-card" style={{
+                        background: 'linear-gradient(135deg, rgba(100, 155, 60, 0.08) 0%, rgba(200, 155, 60, 0.02) 100%)',
+                        border: '1px solid rgba(200, 155, 60, 0.3)',
+                        borderRadius: '16px',
+                        padding: '3rem 2rem',
+                        textAlign: 'center',
+                        color: 'white'
+                    }}>
+                        <img src={leagueLogo} alt="League of Legends" style={{ width: '80px', height: '80px', borderRadius: '50%', display: 'block', margin: '0 auto 1rem', border: '2px solid rgba(200,155,60,0.4)', objectFit: 'cover' }} />
+                        <h2 style={{ fontFamily: 'Bebas Neue, sans-serif', fontSize: '1.8rem', letterSpacing: '0.1em', color: '#c89b3c', margin: '0 0 0.75rem' }}>LEAGUE OF LEGENDS</h2>
+                        <p style={{ color: '#a0a0b0', fontSize: '1.1rem', lineHeight: 1.6, margin: '0 0 1.5rem', fontWeight: 600 }}>Rank tracking, match history, champion history and live game data</p>
+                        <span style={{
+                            display: 'inline-block',
+                            background: 'linear-gradient(135deg, #c89b3c, #785a28)',
+                            color: 'white',
+                            padding: '0.5rem 1.5rem',
+                            borderRadius: '4px',
+                            fontFamily: 'Bebas Neue, sans-serif',
+                            fontSize: '1rem',
+                            letterSpacing: '0.1em'
+                        }}>VIEW STATS</span>
+                    </a>
+
+                    {/* CS2 Card */}
+                    <div className="game-card game-card-cs2" style={{
+                        background: 'linear-gradient(135deg, rgba(255, 107, 53, 0.04) 0%, rgba(255, 107, 53, 0.01) 100%)',
+                        border: '1px solid rgba(255, 107, 53, 0.15)',
+                        borderRadius: '16px',
+                        padding: '3rem 2rem',
+                        textAlign: 'center',
+                        opacity: 0.6,
+                        cursor: 'not-allowed'
+                    }}>
+                        <img src="https://cdn.cloudflare.steamstatic.com/apps/csgo/images/csgo_react/global/logo_cs_sm.svg" alt="Counter-Strike 2" style={{ width: '80px', height: '80px', display: 'block', margin: '0 auto 1rem', objectFit: 'contain' }} />
+                        <h2 style={{ fontFamily: 'Bebas Neue, sans-serif', fontSize: '1.8rem', letterSpacing: '0.1em', color: '#ff6b35', margin: '0 0 0.75rem' }}>COUNTER-STRIKE 2</h2>
+                        <p style={{ color: '#a0a0b0', fontSize: '1.1rem', lineHeight: 1.6, margin: '0 0 1.5rem', fontWeight: 600 }}>K/D ratio, match stats, map win rates and rank history</p>
+                        <span style={{
+                            display: 'inline-block',
+                            background: 'rgba(255, 107, 53, 0.15)',
+                            color: '#ff6b35',
+                            padding: '0.5rem 1.5rem',
+                            borderRadius: '4px',
+                            fontFamily: 'Bebas Neue, sans-serif',
+                            fontSize: '1rem',
+                            letterSpacing: '0.1em',
+                            border: '1px solid rgba(255, 107, 53, 0.3)'
+                        }}>COMING SOON</span>
                     </div>
-                )}
+                </div>
             </div>
         </div>
     )
