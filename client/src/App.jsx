@@ -5,6 +5,7 @@ import Dashboard from "./pages/Dashboard"
 import Landing from './pages/Landing'
 import LeagueDashboard from './pages/LeagueDashboard'
 import Verify from './pages/Verify'
+import Profile from './pages/Profile'
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/" element={<Landing />} />
         <Route path="/league" element={<LeagueDashboard />} />
         <Route path="/verify" element={<Verify />} />
+        <Route path ="/profile" element={<Profile />} />
       </Routes>
     </BrowserRouter>
   )
