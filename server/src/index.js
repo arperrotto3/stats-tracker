@@ -2,6 +2,8 @@ const express = require('express');
 const cors = require('cors');
 const authRoutes = require('./routes/auth');
 const riotRoutes = require('./routes/riotRoutes');
+const profileRoutes = require('./routes/profileRoutes');
+
 require('dotenv').config();
 require('./config/db');
 
@@ -11,6 +13,7 @@ app.use(cors());
 app.use(express.json());
 app.use('/api/auth', authRoutes);
 app.use('/api/riot', riotRoutes);
+app.use('/api', profileRoutes);
 
 app.get('/api/test', (req, res) => {
     res.json({message: 'Server is running!'});
